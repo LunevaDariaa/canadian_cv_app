@@ -24,18 +24,36 @@ export default function App() {
   const [fullName, setFullName] = useState("Daria Luneva");
   const [city, setCity] = useState("Toronto");
   const [province, setProvince] = useState("ON");
+  const [phoneNum, setPhoneNum] = useState("+1");
+  const [mail, setMail] = useState("xxx.xxxx@gmail.com");
+  const [companyName, setCompanyName] = useState("YWT Comp.");
 
   return (
     <div className="app">
       <FormSidebar
+        // main info
         fullName={fullName}
         onSetFullName={setFullName}
         city={city}
         onSetCity={setCity}
         province={province}
         onSetProvince={setProvince}
+        phoneNum={phoneNum}
+        onSetPhoneNum={setPhoneNum}
+        mail={mail}
+        onSetMail={setMail}
+        // experience
+        companyName={companyName}
+        onSetCompanyName={setCompanyName}
       />
-      <Resume fullName={fullName} city={city} province={province} />
+      <Resume
+        fullName={fullName}
+        city={city}
+        province={province}
+        phoneNum={phoneNum}
+        mail={mail}
+        companyName={companyName}
+      />
     </div>
   );
 }
@@ -56,6 +74,12 @@ function FormSidebar({
   onSetCity,
   province,
   onSetProvince,
+  phoneNum,
+  onSetPhoneNum,
+  mail,
+  onSetMail,
+  companyName,
+  onSetCompanyName,
 }) {
   return (
     <div className="form-sidebar">
@@ -67,21 +91,30 @@ function FormSidebar({
         onSetCity={onSetCity}
         province={province}
         onSetProvince={onSetProvince}
+        phoneNum={phoneNum}
+        onSetPhoneNum={onSetPhoneNum}
+        mail={mail}
+        onSetMail={onSetMail}
       />
-      <Experience />
+      <Experience
+        companyName={companyName}
+        onSetCompanyName={onSetCompanyName}
+      />
       <Education />
     </div>
   );
 }
 
-function Resume({ fullName, city, province }) {
+function Resume({ fullName, city, province, phoneNum, mail, companyName }) {
   return (
     <div className="resume">
       <div className="personal-info-display">
         <h2>{fullName}</h2>
-        <p>
-          {city} | {province}
-        </p>
+        <p>{`${city}   |   ${province}   |   ${phoneNum}   |   ${mail}`}</p>
+      </div>
+      <div className="experience">
+        <h4>Professional Experience</h4>
+        <div className="experience-heading">{companyName}</div>
       </div>
     </div>
   );
@@ -94,13 +127,16 @@ function PersonalInfo({
   onSetCity,
   province,
   onSetProvince,
+  phoneNum,
+  onSetPhoneNum,
+  mail,
+  onSetMail,
 }) {
   const [isModuleOpened, setIsModuleOpened] = useState(true);
 
   function handleOpenModule() {
     setIsModuleOpened((open) => !open);
   }
-  console.log(fullName);
   return (
     <div className="module">
       <div className="module-info">
@@ -133,20 +169,33 @@ function PersonalInfo({
               <option>{prov}</option>
             ))}
           </select>
-          <input type="number" placeholder="Phone Number" required />
-          <input type="mail" placeholder="Mail" required />
+          <input
+            type="number"
+            placeholder="Phone Number"
+            required
+            value={phoneNum}
+            onChange={(e) => onSetPhoneNum(e.target.value)}
+          />
+          <input
+            type="mail"
+            placeholder="Mail"
+            required
+            value={mail}
+            onChange={(e) => onSetMail(e.target.value)}
+          />
         </form>
       )}
     </div>
   );
 }
 
-function Experience() {
-  const [isModuleOpened, setIsModuleOpened] = useState(true);
-
+function Experience({ companyName, onSetCompanyName }) {
+  const [isModuleOpened, setIsModuleOpened] = useState(false);
+  const [project, setProject] = useState(null);
   function handleOpenModule() {
     setIsModuleOpened((open) => !open);
   }
+
   return (
     <div className="module">
       <div className="module-info">
@@ -155,9 +204,16 @@ function Experience() {
           {!isModuleOpened ? "+" : "-"}
         </button>
       </div>
+
       {isModuleOpened && (
         <form>
-          <input type="text" placeholder="Company name" required />
+          <input
+            type="text"
+            value={companyName}
+            placeholder="Company name"
+            required
+            onChange={onSetCompanyName}
+          />
           <input type="text" placeholder="Position Title" required />
           <input type="date" placeholder="Start Date" required />
           <input type="date" placeholder="End Date" />
@@ -174,7 +230,7 @@ function Experience() {
 }
 
 function Education() {
-  const [isModuleOpened, setIsModuleOpened] = useState(true);
+  const [isModuleOpened, setIsModuleOpened] = useState(false);
 
   function handleOpenModule() {
     setIsModuleOpened((open) => !open);
