@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const provinces = [
   "AB",
@@ -16,8 +19,12 @@ const provinces = [
   "YT",
 ];
 
-function Button({ children }) {
-  return <button className="bn3637 bn37">{children}</button>;
+function Button({ children, onClick, style }) {
+  return (
+    <button style={style} className="bn3637 bn37" onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
 export default function App() {
@@ -163,10 +170,10 @@ function PersonalInfo({
           />
           <select
             value={province}
-            onClick={(e) => onSetProvince(e.target.value)}
+            onChange={(e) => onSetProvince(e.target.value)}
           >
-            {provinces.map((prov) => (
-              <option>{prov}</option>
+            {provinces.map((prov, i) => (
+              <option key={i}>{prov}</option>
             ))}
           </select>
           <input
@@ -190,10 +197,24 @@ function PersonalInfo({
 }
 
 function Experience({ companyName, onSetCompanyName }) {
+  const [isSeen, setIsSeen] = useState(false);
+
+  function toggleSeen() {
+    setIsSeen((prevSeen) => !prevSeen);
+  }
   const [isModuleOpened, setIsModuleOpened] = useState(false);
+  const [newJob, setNewJob] = useState(false);
   const [project, setProject] = useState(null);
+  const projects = [];
+
+  function createNewProject() {}
+
   function handleOpenModule() {
     setIsModuleOpened((open) => !open);
+  }
+
+  function handleNewJob() {
+    setNewJob(!newJob); // Toggle the state directly
   }
 
   return (
@@ -204,8 +225,7 @@ function Experience({ companyName, onSetCompanyName }) {
           {!isModuleOpened ? "+" : "-"}
         </button>
       </div>
-
-      {isModuleOpened && (
+      {newJob && isModuleOpened && (
         <form>
           <input
             type="text"
@@ -225,6 +245,26 @@ function Experience({ companyName, onSetCompanyName }) {
           ></textarea>
         </form>
       )}
+      {isModuleOpened && (
+        <>
+          <Button onClick={handleNewJob}> + Education</Button>
+          <Job isSeen={isSeen} toggleSeen={toggleSeen}></Job>
+        </>
+      )}
+    </div>
+  );
+}
+
+function Job({ isSeen, toggleSeen }) {
+  return (
+    <div className="job">
+      <p className="job-company">VGH Corporation</p>
+      <button className="seen-btn" onClick={toggleSeen}>
+        <FontAwesomeIcon
+          icon={isSeen ? faEye : faEyeSlash}
+          className="eye-icon"
+        />
+      </button>
     </div>
   );
 }
