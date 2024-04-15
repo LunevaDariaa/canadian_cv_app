@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEye,
+  faEyeSlash,
+  faUserGraduate,
+  faUser,
+  faPlus,
+  faMinus,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
+import { Experience } from "./Experience";
 
 const provinces = [
   "AB",
@@ -19,7 +28,7 @@ const provinces = [
   "YT",
 ];
 
-function Button({ children, onClick, style }) {
+export function Button({ children, onClick, style }) {
   return (
     <button style={style} className="bn3637 bn37" onClick={onClick}>
       {children}
@@ -28,12 +37,21 @@ function Button({ children, onClick, style }) {
 }
 
 export default function App() {
+  // Personal Info
   const [fullName, setFullName] = useState("Daria Luneva");
   const [city, setCity] = useState("Toronto");
   const [province, setProvince] = useState("ON");
   const [phoneNum, setPhoneNum] = useState("+1");
   const [mail, setMail] = useState("xxx.xxxx@gmail.com");
+
+  // Experience
+  const [projects, setProjects] = useState([]);
   const [companyName, setCompanyName] = useState("YWT Comp.");
+  const [positionTitle, setPositionTitle] = useState("Manager");
+  const [startDateExperience, setStartDateExperience] = useState("2022-01-01");
+  const [endtDateExperience, setEndDateExperience] = useState("2022-10-01");
+  const [location, setLocation] = useState("Toronto");
+  const [jobDescription, setJobDescription] = useState(" Created..");
 
   return (
     <div className="app">
@@ -50,16 +68,34 @@ export default function App() {
         mail={mail}
         onSetMail={setMail}
         // experience
+        projects={projects}
+        setProjects={setProjects}
         companyName={companyName}
         onSetCompanyName={setCompanyName}
+        positionTitle={positionTitle}
+        onSetPositionTitle={setPositionTitle}
+        startDateExperience={startDateExperience}
+        onSetStartDateExperience={setStartDateExperience}
+        endtDateExperience={endtDateExperience}
+        onSetEndDateExperience={setEndDateExperience}
+        location={location}
+        onSetLocation={setLocation}
+        jobDescription={jobDescription}
+        onSetJobDescription={setJobDescription}
       />
       <Resume
+        projects={projects}
         fullName={fullName}
         city={city}
         province={province}
         phoneNum={phoneNum}
         mail={mail}
         companyName={companyName}
+        positionTitle={positionTitle}
+        startDateExperience={startDateExperience}
+        endtDateExperience={endtDateExperience}
+        location={location}
+        jobDescription={jobDescription}
       />
     </div>
   );
@@ -75,6 +111,8 @@ function Header() {
 }
 
 function FormSidebar({
+  projects,
+  setProjects,
   fullName,
   onSetFullName,
   city,
@@ -87,6 +125,16 @@ function FormSidebar({
   onSetMail,
   companyName,
   onSetCompanyName,
+  positionTitle,
+  onSetPositionTitle,
+  startDateExperience,
+  onSetStartDateExperience,
+  endtDateExperience,
+  onSetEndDateExperience,
+  location,
+  onSetLocation,
+  jobDescription,
+  onSetJobDescription,
 }) {
   return (
     <div className="form-sidebar">
@@ -104,25 +152,84 @@ function FormSidebar({
         onSetMail={onSetMail}
       />
       <Experience
+        projects={projects}
+        setProjects={setProjects}
         companyName={companyName}
         onSetCompanyName={onSetCompanyName}
+        positionTitle={positionTitle}
+        onSetPositionTitle={onSetPositionTitle}
+        startDateExperience={startDateExperience}
+        onSetStartDateExperience={onSetStartDateExperience}
+        endtDateExperience={endtDateExperience}
+        onSetEndDateExperience={onSetEndDateExperience}
+        location={location}
+        onSetLocation={onSetLocation}
+        jobDescription={jobDescription}
+        onSetJobDescription={onSetJobDescription}
       />
       <Education />
     </div>
   );
 }
+// companyName,
+// positionTitle,
+// startDateExperience,
+// endtDateExperience,
+// location,
+// jobDescription,
 
-function Resume({ fullName, city, province, phoneNum, mail, companyName }) {
+function Resume({ projects, fullName, city, province, phoneNum, mail }) {
   return (
     <div className="resume">
       <div className="personal-info-display">
         <h2>{fullName}</h2>
-        <p>{`${city}   |   ${province}   |   ${phoneNum}   |   ${mail}`}</p>
+        <p>{`${city}, ${province}   |   ${phoneNum}   |   ${mail}`}</p>
       </div>
       <div className="experience">
         <h4>Professional Experience</h4>
-        <div className="experience-heading">{companyName}</div>
+
+        {projects.map((project) => (
+          <JobResume key={project.id} project={project} />
+        ))}
       </div>
+    </div>
+  );
+}
+
+function JobResume({ project }) {
+  const {
+    companyName,
+    endtDateExperience,
+    jobDescription,
+    location,
+    positionTitle,
+    startDateExperience,
+  } = project;
+
+  const jobPoints = jobDescription.split("\n");
+  const filteredJobPoints = jobPoints.filter((point) => point.trim() !== "");
+  const startYear = new Date(startDateExperience).getFullYear();
+  const startMonth = new Date(startDateExperience).getMonth();
+
+  const endYear = new Date(endtDateExperience).getFullYear();
+  const endMonth = new Date(endtDateExperience).getMonth();
+  return (
+    <div className="experience-full">
+      <div className="experience-heading">
+        <div className="experience-heading-title">
+          <div>{positionTitle}</div>
+          <div>{`${companyName} | ${location}`}</div>
+        </div>
+
+        <div className="experience-heading-dates">
+          <div>{`${startYear}/${startMonth} - ${endYear}/${endMonth}`}</div>
+        </div>
+      </div>
+      <ul>
+        {filteredJobPoints.map((point, index) => (
+          <li key={index}>{point}</li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -147,9 +254,15 @@ function PersonalInfo({
   return (
     <div className="module">
       <div className="module-info">
-        <h1>Personal Information</h1>
+        <h1>
+          <FontAwesomeIcon className="icon" icon={faUser} />
+          Personal Information
+        </h1>
         <button onClick={handleOpenModule}>
-          {!isModuleOpened ? "+" : "-"}
+          <FontAwesomeIcon
+            icon={!isModuleOpened ? faPlus : faMinus}
+            style={{ fontSize: "20px" }}
+          />
         </button>
       </div>
       {isModuleOpened && (
@@ -195,77 +308,48 @@ function PersonalInfo({
     </div>
   );
 }
-
-function Experience({ companyName, onSetCompanyName }) {
-  const [isSeen, setIsSeen] = useState(false);
-
-  function toggleSeen() {
-    setIsSeen((prevSeen) => !prevSeen);
+export function JobList({ projects, setProjects }) {
+  function handleClearProject(projectId) {
+    const filteredProjects = projects.filter((proj) => proj.id !== projectId);
+    setProjects(filteredProjects);
   }
-  const [isModuleOpened, setIsModuleOpened] = useState(false);
-  const [newJob, setNewJob] = useState(false);
-  const [project, setProject] = useState(null);
-  const projects = [];
-
-  function createNewProject() {}
-
-  function handleOpenModule() {
-    setIsModuleOpened((open) => !open);
-  }
-
-  function handleNewJob() {
-    setNewJob(!newJob); // Toggle the state directly
-  }
-
   return (
-    <div className="module">
-      <div className="module-info">
-        <h1>💼 Experience</h1>
-        <button onClick={handleOpenModule}>
-          {!isModuleOpened ? "+" : "-"}
-        </button>
-      </div>
-      {newJob && isModuleOpened && (
-        <form>
-          <input
-            type="text"
-            value={companyName}
-            placeholder="Company name"
-            required
-            onChange={onSetCompanyName}
-          />
-          <input type="text" placeholder="Position Title" required />
-          <input type="date" placeholder="Start Date" required />
-          <input type="date" placeholder="End Date" />
-          <input type="text" placeholder="Location" required />
-          <textarea
-            type="text"
-            minLength="20"
-            placeholder="Description.."
-          ></textarea>
-        </form>
-      )}
-      {isModuleOpened && (
-        <>
-          <Button onClick={handleNewJob}> + Education</Button>
-          <Job isSeen={isSeen} toggleSeen={toggleSeen}></Job>
-        </>
-      )}
+    <div>
+      {projects.map((project) => (
+        <Job
+          key={project.id}
+          project={project}
+          handleClearProject={handleClearProject}
+        />
+      ))}
     </div>
   );
 }
-
-function Job({ isSeen, toggleSeen }) {
+export function Job({ project, handleClearProject }) {
+  const [isSeen, setIsSeen] = useState(true);
+  const { id, companyName } = project;
+  function toggleSeen() {
+    setIsSeen((seen) => !seen);
+  }
   return (
-    <div className="job">
-      <p className="job-company">VGH Corporation</p>
-      <button className="seen-btn" onClick={toggleSeen}>
-        <FontAwesomeIcon
-          icon={isSeen ? faEye : faEyeSlash}
-          className="eye-icon"
-        />
-      </button>
-    </div>
+    <>
+      <div className="job" key={id}>
+        <p className="job-company">{companyName}</p>
+        <button className="seen-btn" onClick={toggleSeen}>
+          <FontAwesomeIcon
+            icon={isSeen ? faEye : faEyeSlash}
+            className="eye-icon"
+          />
+        </button>
+        <button className="seen-btn">
+          <FontAwesomeIcon
+            onClick={() => handleClearProject(id)}
+            style={{ fontSize: "20px" }}
+            icon={faTrashCan}
+          />
+        </button>
+      </div>
+    </>
   );
 }
 
@@ -279,9 +363,14 @@ function Education() {
   return (
     <div className="module">
       <div className="module-info">
-        <h1>👩‍🎓 Education</h1>
+        <h1>
+          <FontAwesomeIcon className="icon" icon={faUserGraduate} /> Education
+        </h1>
         <button onClick={handleOpenModule}>
-          {!isModuleOpened ? "+" : "-"}
+          <FontAwesomeIcon
+            style={{ fontSize: "20px" }}
+            icon={!isModuleOpened ? faPlus : faMinus}
+          />
         </button>
       </div>
       {isModuleOpened && (
