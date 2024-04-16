@@ -5,7 +5,8 @@ import {
   faPlus,
   faMinus,
 } from "@fortawesome/free-solid-svg-icons";
-import { Button, JobList } from "./App";
+import { Button } from "./App";
+import { JobList } from "./JobList";
 
 export function Experience({
   projects,
@@ -23,11 +24,6 @@ export function Experience({
   jobDescription,
   onSetJobDescription,
 }) {
-  const [isSeen, setIsSeen] = useState(false);
-
-  function toggleSeen() {
-    setIsSeen((prevSeen) => !prevSeen);
-  }
   const [isModuleOpened, setIsModuleOpened] = useState(false);
   const [newJob, setNewJob] = useState(false);
 

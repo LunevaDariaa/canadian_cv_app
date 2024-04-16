@@ -2,13 +2,13 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import {
-  faEye,
-  faEyeSlash,
   faUserGraduate,
   faUser,
+  faEyeSlash,
+  faEye,
   faPlus,
-  faMinus,
   faTrashCan,
+  faMinus,
 } from "@fortawesome/free-solid-svg-icons";
 import { Experience } from "./Experience";
 
@@ -52,7 +52,12 @@ export default function App() {
   const [endtDateExperience, setEndDateExperience] = useState("2022-10-01");
   const [location, setLocation] = useState("Toronto");
   const [jobDescription, setJobDescription] = useState(" Created..");
-
+  //Education
+  const [schoolName, setSchool] = useState("Ryazan State Univercity");
+  const [degree, setDegree] = useState("Master's degree");
+  const [startDateEducation, setStartDateEducation] = useState("2015-09-01");
+  const [endDateEducation, setEndDateEducation] = useState("2015-09-01");
+  const [schoolLocation, setSchoolLocation] = useState("Russia, Ryazan");
   return (
     <div className="app">
       <FormSidebar
@@ -82,6 +87,17 @@ export default function App() {
         onSetLocation={setLocation}
         jobDescription={jobDescription}
         onSetJobDescription={setJobDescription}
+        //Education
+        schoolName={schoolName}
+        onSetSchool={setSchool}
+        degree={degree}
+        onSetDegree={setDegree}
+        startDateEducation={startDateEducation}
+        onSetStartDateEducation={setStartDateEducation}
+        endDateEducation={endDateEducation}
+        onSetEndDateEducation={setEndDateEducation}
+        schoolLocation={schoolLocation}
+        onSetSchoolLocation={setSchoolLocation}
       />
       <Resume
         projects={projects}
@@ -135,6 +151,16 @@ function FormSidebar({
   onSetLocation,
   jobDescription,
   onSetJobDescription,
+  schoolName,
+  onSetSchool,
+  degree,
+  onSetDegree,
+  startDateEducation,
+  onSetStartDateEducation,
+  endDateEducation,
+  onSetEndDateEducation,
+  schoolLocation,
+  onSetSchoolLocation,
 }) {
   return (
     <div className="form-sidebar">
@@ -167,7 +193,18 @@ function FormSidebar({
         jobDescription={jobDescription}
         onSetJobDescription={onSetJobDescription}
       />
-      <Education />
+      <Education
+        schoolName={schoolName}
+        onSetSchool={onSetSchool}
+        degree={degree}
+        onSetDegree={onSetDegree}
+        startDateEducation={startDateEducation}
+        onSetStartDateEducation={onSetStartDateEducation}
+        endDateEducation={endDateEducation}
+        onSetEndDateEducation={onSetEndDateEducation}
+        schoolLocation={schoolLocation}
+        onSetSchoolLocation={onSetSchoolLocation}
+      />
     </div>
   );
 }
@@ -308,53 +345,51 @@ function PersonalInfo({
     </div>
   );
 }
-export function JobList({ projects, setProjects }) {
-  function handleClearProject(projectId) {
-    const filteredProjects = projects.filter((proj) => proj.id !== projectId);
-    setProjects(filteredProjects);
-  }
-  return (
-    <div>
-      {projects.map((project) => (
-        <Job
-          key={project.id}
-          project={project}
-          handleClearProject={handleClearProject}
-        />
-      ))}
-    </div>
-  );
-}
-export function Job({ project, handleClearProject }) {
-  const [isSeen, setIsSeen] = useState(true);
-  const { id, companyName } = project;
-  function toggleSeen() {
-    setIsSeen((seen) => !seen);
-  }
-  return (
-    <>
-      <div className="job" key={id}>
-        <p className="job-company">{companyName}</p>
-        <button className="seen-btn" onClick={toggleSeen}>
-          <FontAwesomeIcon
-            icon={isSeen ? faEye : faEyeSlash}
-            className="eye-icon"
-          />
-        </button>
-        <button className="seen-btn">
-          <FontAwesomeIcon
-            onClick={() => handleClearProject(id)}
-            style={{ fontSize: "20px" }}
-            icon={faTrashCan}
-          />
-        </button>
-      </div>
-    </>
-  );
-}
-
-function Education() {
+function Education({
+  schoolName,
+  onSetSchool,
+  degree,
+  onSetDegree,
+  startDateEducation,
+  onSetStartDateEducation,
+  endDateEducation,
+  onSetEndDateEducation,
+  schoolLocation,
+  onSetSchoolLocation,
+}) {
+  const [schools, setSchools] = useState([]);
+  const [isSeen, setIsSeen] = useState(false);
   const [isModuleOpened, setIsModuleOpened] = useState(false);
+  const [newSchool, setNewSchool] = useState(false);
+
+  function toggleSeen() {
+    setIsSeen((prevSeen) => !prevSeen);
+  }
+
+  function handleNewSchool(e) {
+    e.preventDefault();
+    const id = Date.now();
+    const newEducation = {
+      id,
+      schoolName,
+      degree,
+      startDateEducation,
+      endDateEducation,
+      schoolLocation,
+    };
+    setSchools([...schools, newEducation]); // Update the projects array state
+
+    onSetSchool("");
+    onSetDegree("");
+    onSetStartDateEducation("");
+    onSetEndDateEducation("");
+    onSetSchoolLocation("");
+    handleAddSchool();
+  }
+
+  function handleAddSchool() {
+    setNewSchool((s) => !s);
+  }
 
   function handleOpenModule() {
     setIsModuleOpened((open) => !open);
@@ -373,16 +408,115 @@ function Education() {
           />
         </button>
       </div>
-      {isModuleOpened && (
+      {isModuleOpened && newSchool && (
         <form>
-          <input type="text" placeholder="School" required />
-          <input type="text" placeholder="Degree" required />
-          <input type="date" placeholder="Start Date" required />
-          <input type="date" placeholder="End Date" />
-          <input type="text" placeholder="Location" required />
+          <input
+            type="text"
+            value={schoolName}
+            placeholder="School"
+            onChange={(e) => onSetSchool(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            value={degree}
+            placeholder="Degree"
+            onChange={(e) => onSetDegree(e.target.value)}
+            required
+          />
+          <input
+            type="date"
+            value={startDateEducation}
+            placeholder="Start Date"
+            onChange={(e) => onSetStartDateEducation(e.target.value)}
+            required
+          />
+          <input
+            type="date"
+            value={endDateEducation}
+            onChange={(e) => onSetEndDateEducation(e.target.value)}
+            placeholder="End Date"
+          />
+          <input
+            type="text"
+            value={schoolLocation}
+            onChange={(e) => onSetSchoolLocation(e.target.value)}
+            placeholder="Location"
+            required
+          />
+          <Button
+            onClick={handleAddSchool}
+            style={{
+              backgroundColor: "rgb(182, 199, 228)",
+              borderRadius: "2px",
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleNewSchool}
+            style={{
+              backgroundColor: "rgb(182, 199, 228)",
+              borderRadius: "2px",
+            }}
+          >
+            Save
+          </Button>
         </form>
       )}
+      {isModuleOpened && (
+        <>
+          <SchoolList schools={schools} setSchools={setSchools} />
+          {!newSchool && <Button onClick={handleAddSchool}> + New</Button>}
+        </>
+      )}
     </div>
+  );
+}
+
+function SchoolList({ schools, setSchools }) {
+  function handleClearSchool(schoolId) {
+    const filteredSchools = schools.filter((s) => s.id !== schoolId);
+    setSchools(filteredSchools);
+  }
+  return (
+    <div>
+      {schools.map((school) => (
+        <Job
+          key={school.id}
+          school={school}
+          handleClearSchool={handleClearSchool}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Job({ school, handleClearSchool }) {
+  const [isSeen, setIsSeen] = useState(true);
+  const { id, schoolName } = school;
+  function toggleSeen() {
+    setIsSeen((seen) => !seen);
+  }
+  return (
+    <>
+      <div className="job" key={id}>
+        <p className="job-company">{schoolName}</p>
+        <button className="seen-btn" onClick={toggleSeen}>
+          <FontAwesomeIcon
+            icon={isSeen ? faEye : faEyeSlash}
+            className="eye-icon"
+          />
+        </button>
+        <button className="seen-btn">
+          <FontAwesomeIcon
+            onClick={() => handleClearSchool(id)}
+            style={{ fontSize: "20px" }}
+            icon={faTrashCan}
+          />
+        </button>
+      </div>
+    </>
   );
 }
 
