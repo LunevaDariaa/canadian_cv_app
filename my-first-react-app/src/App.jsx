@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { jsPDF } from "jspdf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -43,7 +44,9 @@ export default function App() {
   const [province, setProvince] = useState("ON");
   const [phoneNum, setPhoneNum] = useState("+1");
   const [mail, setMail] = useState("xxx.xxxx@gmail.com");
-
+  const [summary, setSummary] = useState(
+    "Results-driven Computer Programming student adept in both frontend and backend development. Leveraging a background in 3D modeling for visually captivating web experiences. Known for collaborative problem-solving within teams. Dedicated to staying updated with emerging web development trends."
+  );
   // Experience
   const [projects, setProjects] = useState([]);
   const [companyName, setCompanyName] = useState("YWT Comp.");
@@ -72,6 +75,8 @@ export default function App() {
         onSetPhoneNum={setPhoneNum}
         mail={mail}
         onSetMail={setMail}
+        summary={summary}
+        onSetSummary={setSummary}
         // experience
         projects={projects}
         setProjects={setProjects}
@@ -106,12 +111,8 @@ export default function App() {
         province={province}
         phoneNum={phoneNum}
         mail={mail}
-        companyName={companyName}
-        positionTitle={positionTitle}
-        startDateExperience={startDateExperience}
-        endtDateExperience={endtDateExperience}
-        location={location}
-        jobDescription={jobDescription}
+        summary={summary}
+        onSetSummary={setSummary}
       />
     </div>
   );
@@ -121,7 +122,10 @@ function Header() {
   return (
     <div className="header">
       <h1>Content</h1>
-      <Button>Clear</Button>
+      <Button onClick={handleDownloadResume}>Download PDF</Button>
+      <Button style={{ borderRadius: "10px", backgroundColor: "#f8afa6" }}>
+        Clear
+      </Button>
     </div>
   );
 }
@@ -161,6 +165,8 @@ function FormSidebar({
   onSetEndDateEducation,
   schoolLocation,
   onSetSchoolLocation,
+  summary,
+  onSetSummary,
 }) {
   return (
     <div className="form-sidebar">
@@ -176,7 +182,10 @@ function FormSidebar({
         onSetPhoneNum={onSetPhoneNum}
         mail={mail}
         onSetMail={onSetMail}
+        summary={summary}
+        onSetSummary={onSetSummary}
       />
+      <Skills />
       <Experience
         projects={projects}
         setProjects={setProjects}
@@ -215,16 +224,27 @@ function FormSidebar({
 // location,
 // jobDescription,
 
-function Resume({ projects, fullName, city, province, phoneNum, mail }) {
+function Resume({
+  projects,
+  fullName,
+  city,
+  province,
+  phoneNum,
+  mail,
+  summary,
+}) {
   return (
-    <div className="resume">
+    <div className="resume" id="resume-pdf">
       <div className="personal-info-display">
         <h2>{fullName}</h2>
         <p>{`${city}, ${province}   |   ${phoneNum}   |   ${mail}`}</p>
       </div>
+      <div className="summary">
+        <h5>SUMMARY</h5>
+        <div className="text">{summary}</div>
+      </div>
       <div className="experience">
-        <h4>Professional Experience</h4>
-
+        {!(projects.length === 0) && <h5>PROFESSIONAL EXPERIENCE</h5>}
         {projects.map((project) => (
           <JobResume key={project.id} project={project} />
         ))}
@@ -282,6 +302,8 @@ function PersonalInfo({
   onSetPhoneNum,
   mail,
   onSetMail,
+  summary,
+  onSetSummary,
 }) {
   const [isModuleOpened, setIsModuleOpened] = useState(true);
 
@@ -340,6 +362,18 @@ function PersonalInfo({
             value={mail}
             onChange={(e) => onSetMail(e.target.value)}
           />
+          <textarea
+            type="text"
+            style={{
+              resize: "vertical",
+              minHeight: "100px",
+              outline: "none",
+            }}
+            minLength="20"
+            value={summary}
+            onChange={(e) => onSetSummary(e.target.value)}
+            placeholder="Summary"
+          ></textarea>
         </form>
       )}
     </div>
@@ -358,13 +392,8 @@ function Education({
   onSetSchoolLocation,
 }) {
   const [schools, setSchools] = useState([]);
-  const [isSeen, setIsSeen] = useState(false);
   const [isModuleOpened, setIsModuleOpened] = useState(false);
   const [newSchool, setNewSchool] = useState(false);
-
-  function toggleSeen() {
-    setIsSeen((prevSeen) => !prevSeen);
-  }
 
   function handleNewSchool(e) {
     e.preventDefault();
@@ -444,24 +473,8 @@ function Education({
             placeholder="Location"
             required
           />
-          <Button
-            onClick={handleAddSchool}
-            style={{
-              backgroundColor: "rgb(182, 199, 228)",
-              borderRadius: "2px",
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleNewSchool}
-            style={{
-              backgroundColor: "rgb(182, 199, 228)",
-              borderRadius: "2px",
-            }}
-          >
-            Save
-          </Button>
+          <Button onClick={handleAddSchool}>Cancel</Button>
+          <Button onClick={handleNewSchool}>Save</Button>
         </form>
       )}
       {isModuleOpened && (
@@ -521,5 +534,33 @@ function Job({ school, handleClearSchool }) {
 }
 
 function Skills() {
-  return <div></div>;
+  const [isModuleOpened, setIsModuleOpened] = useState(false);
+  function handleOpenModule() {
+    setIsModuleOpened((open) => !open);
+  }
+  return (
+    <div className="module">
+      <div className="module-info">
+        <h1>
+          <FontAwesomeIcon className="icon" icon={faUser} />
+          Skills
+        </h1>
+        <button onClick={handleOpenModule}>
+          <FontAwesomeIcon
+            icon={!isModuleOpened ? faPlus : faMinus}
+            style={{ fontSize: "20px" }}
+          />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function handleDownloadResume() {
+  const doc = new jsPDF("portrait", "pt", "a4");
+
+  doc.html(document.querySelector("#resume-pdf")).then(() => {
+    // Save the PDF file
+    doc.save("resume.pdf");
+  });
 }

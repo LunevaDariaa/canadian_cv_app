@@ -110,28 +110,17 @@ export function Experience({
           <textarea
             type="text"
             minLength="20"
+            style={{
+              resize: "vertical",
+              minHeight: "100px",
+              outline: "none",
+            }}
             value={jobDescription}
             onChange={(e) => onSetJobDescription(e.target.value)}
             placeholder="Description.."
           ></textarea>
-          <Button
-            onClick={handleNewJob}
-            style={{
-              backgroundColor: "rgb(182, 199, 228)",
-              borderRadius: "2px",
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleNewProject}
-            style={{
-              backgroundColor: "rgb(182, 199, 228)",
-              borderRadius: "2px",
-            }}
-          >
-            Save
-          </Button>
+          <Button onClick={handleNewJob}>Cancel</Button>
+          <Button onClick={handleNewProject}>Save</Button>
         </form>
       )}
       {isModuleOpened && (
