@@ -255,3 +255,44 @@ header {
   margin-left: 20px;
   flex-grow: 2;
 }
+
+.skill-form {
+  display: flex;
+  flex-direction: row;
+}
+
+.skills-input {
+  flex-grow: 1;
+}
+
+.skills {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.skill {
+  width: fit-content;
+  background-color: #ecf2f4;
+  border-radius: 3px;
+  padding: 7px 10px;
+  margin: 10px;
+}
+
+.skill-text {
+  padding: 0 15px;
+}
+
+.crossed-out {
+  text-decoration: line-through;
+}
+
+/* Resume rendering skills */
+.skills-list-resume {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Display 3 columns */
+  gap: 4px 16px; /* Add some space between skills */
+}
+
+.skill-resume {
+}

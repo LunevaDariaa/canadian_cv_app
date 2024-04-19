@@ -6,12 +6,10 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 
-export function Job({ project, handleClearProject }) {
-  const [isSeen, setIsSeen] = useState(true);
+export function Job({ project, handleClearProject, isSeen, toggleSeen }) {
+  // const [isSeen, setIsSeen] = useState(true);
   const { id, companyName } = project;
-  function toggleSeen() {
-    setIsSeen((seen) => !seen);
-  }
+
   return (
     <>
       <div className="job" key={id}>
