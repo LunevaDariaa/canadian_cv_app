@@ -51,6 +51,7 @@ export default function App() {
   );
   // Experience
   const [projects, setProjects] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]);
   const [companyName, setCompanyName] = useState("YWT Comp.");
   const [positionTitle, setPositionTitle] = useState("Manager");
   const [startDateExperience, setStartDateExperience] = useState("2022-01-01");
@@ -97,6 +98,8 @@ export default function App() {
         // experience
         projects={projects}
         setProjects={setProjects}
+        filteredJobs={filteredJobs}
+        onSetFilteredJobs={setFilteredJobs}
         companyName={companyName}
         onSetCompanyName={setCompanyName}
         positionTitle={positionTitle}

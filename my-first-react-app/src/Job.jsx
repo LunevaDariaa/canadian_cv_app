@@ -6,8 +6,7 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 
-export function Job({ project, handleClearProject, isSeen, toggleSeen }) {
-  // const [isSeen, setIsSeen] = useState(true);
+export function Job({ project, handleClearProject, toggleSeen }) {
   const { id, companyName } = project;
 
   return (
@@ -16,7 +15,7 @@ export function Job({ project, handleClearProject, isSeen, toggleSeen }) {
         <p className="job-company">{companyName}</p>
         <button className="seen-btn" onClick={toggleSeen}>
           <FontAwesomeIcon
-            icon={isSeen ? faEye : faEyeSlash}
+            icon={project.isSeen ? faEye : faEyeSlash}
             className="eye-icon"
           />
         </button>

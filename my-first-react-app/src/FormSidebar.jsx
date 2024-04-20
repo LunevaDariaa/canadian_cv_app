@@ -6,6 +6,8 @@ import { PersonalInfo } from "./PersonalInfo";
 export function FormSidebar({
   projects,
   setProjects,
+  filteredJobs,
+  onSetFilteredJobs,
   fullName,
   onSetFullName,
   city,

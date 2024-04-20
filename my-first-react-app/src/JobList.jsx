@@ -1,26 +1,26 @@
+import React, { useState } from "react"; // Import useState
+
 import { Job } from "./Job";
 
 export function JobList({ projects, setProjects }) {
-  const [isSeen, setIsSeen] = useState(true);
-
-  // function toggleSeen(projectId) {
-  //   setIsSeen((seen) => !seen);
-  //   const filteredProject = projects.filter((proj) => proj.id === projectId);
-
-  //   if (isSeen === false) {
-  //     projects.filter((proj) => proj.id !== filteredProject.id);
-  //   }
-  //   if (isSeen === true) setProjects(...projects, filteredProject);
-  // }
   function toggleSeen(projectId) {
-    setProjects((prevProjects) => {
-      return prevProjects.map((project) => {
-        if (project.id === projectId) {
-          return { ...project, isSeen: !project.isSeen };
-        }
-        return project;
-      });
-    });
+    const project = projects.find((proj) => proj.id === projectId);
+
+    project.isSeen = !project.isSeen;
+
+    setProjects([...projects]);
+
+    if (project.isSeen) {
+      // Remove the project from filteredJobs
+      const updatedFilteredJobs = filteredJobs.filter(
+        (proj) => proj.id !== projectId
+      );
+      setFilteredJobs(updatedFilteredJobs);
+    } else {
+      // Add the project to filteredJobs
+      setFilteredJobs([...filteredJobs, project]);
+    }
+    console.log(filteredJobs);
   }
 
   function handleClearProject(projectId) {
@@ -32,7 +32,6 @@ export function JobList({ projects, setProjects }) {
       {projects.map((project) => (
         <Job
           toggleSeen={() => toggleSeen(project.id)}
-          isSeen={isSeen}
           key={project.id}
           project={project}
           handleClearProject={handleClearProject}

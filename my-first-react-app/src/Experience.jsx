@@ -32,6 +32,7 @@ export function Experience({
     const id = Date.now();
     const newProj = {
       id,
+      isSeen: true,
       companyName,
       positionTitle,
       startDateExperience,
