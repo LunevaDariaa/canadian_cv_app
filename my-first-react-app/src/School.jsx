@@ -1,31 +1,27 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faEye,
   faEyeSlash,
+  faEye,
   faTrashCan,
-  faPen,
 } from "@fortawesome/free-solid-svg-icons";
 
-export function Job({ project, handleClearProject, toggleSeen }) {
-  const { id, companyName } = project;
+export function School({ school, handleClearSchool, toggleSeen }) {
+  const { id, schoolName, isSeen } = school;
 
   return (
     <>
       <div className="job" key={id}>
-        <p className="job-company">{companyName}</p>
-        <button className="seen-btn">
-          <FontAwesomeIcon icon={faPen} />
-        </button>
+        <p className="job-company">{schoolName}</p>
         <button className="seen-btn" onClick={toggleSeen}>
           <FontAwesomeIcon
-            icon={project.isSeen ? faEye : faEyeSlash}
+            icon={isSeen ? faEye : faEyeSlash}
             className="eye-icon"
           />
         </button>
         <button className="seen-btn">
           <FontAwesomeIcon
-            onClick={() => handleClearProject(id)}
+            onClick={() => handleClearSchool(id)}
             style={{ fontSize: "20px" }}
             icon={faTrashCan}
           />

@@ -1,6 +1,29 @@
-import { Job } from "./App";
+import { School } from "./School";
 
-export function SchoolList({ schools, setSchools }) {
+export function SchoolList({
+  schools,
+  setSchools,
+  filteredSchools,
+  onSetFilteredSchools,
+}) {
+  function toggleSeen(schoolId) {
+    const school = schools.find((proj) => proj.id === schoolId);
+
+    school.isSeen = !school.isSeen;
+
+    setSchools([...schools]);
+
+    if (school.isSeen) {
+      const updatedFilteredSchools = filteredSchools.filter(
+        (proj) => proj.id !== schoolId
+      );
+      onSetFilteredSchools(updatedFilteredSchools);
+    } else {
+      onSetFilteredSchools([...filteredSchools, school]);
+    }
+    console.log(filteredSchools);
+  }
+
   function handleClearSchool(schoolId) {
     const filteredSchools = schools.filter((s) => s.id !== schoolId);
     setSchools(filteredSchools);
@@ -8,7 +31,8 @@ export function SchoolList({ schools, setSchools }) {
   return (
     <div>
       {schools.map((school) => (
-        <Job
+        <School
+          toggleSeen={() => toggleSeen(school.id)}
           key={school.id}
           school={school}
           handleClearSchool={handleClearSchool}

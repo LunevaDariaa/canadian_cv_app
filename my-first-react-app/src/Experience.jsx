@@ -11,6 +11,8 @@ import { JobList } from "./JobList";
 export function Experience({
   projects,
   setProjects,
+  filteredJobs,
+  onSetFilteredJobs,
   companyName,
   onSetCompanyName,
   positionTitle,
@@ -73,7 +75,7 @@ export function Experience({
         </button>
       </div>
       {newJob && isModuleOpened && (
-        <form>
+        <form onSubmit={handleNewProject}>
           <input
             type="text"
             value={companyName}
@@ -119,14 +121,20 @@ export function Experience({
             value={jobDescription}
             onChange={(e) => onSetJobDescription(e.target.value)}
             placeholder="Description.."
+            required
           ></textarea>
           <Button onClick={handleNewJob}>Cancel</Button>
-          <Button onClick={handleNewProject}>Save</Button>
+          <Button type="submit">Save</Button>
         </form>
       )}
       {isModuleOpened && (
         <>
-          <JobList projects={projects} setProjects={setProjects} />
+          <JobList
+            projects={projects}
+            setProjects={setProjects}
+            filteredJobs={filteredJobs}
+            onSetFilteredJobs={onSetFilteredJobs}
+          />
           {!newJob && <Button onClick={handleNewJob}> + New</Button>}
         </>
       )}

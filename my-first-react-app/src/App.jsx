@@ -1,19 +1,16 @@
 import { useState } from "react";
-import { jsPDF } from "jspdf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import {
   faUser,
-  faEyeSlash,
-  faEye,
   faPlus,
-  faTrashCan,
   faCheck,
   faMinus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FormSidebar } from "./FormSidebar";
 import { Resume } from "./Resume";
+import { handleDownloadResume } from "./handleDownloadResume";
 
 export const provinces = [
   "AB",
@@ -58,9 +55,13 @@ export default function App() {
   const [endtDateExperience, setEndDateExperience] = useState("2022-10-01");
   const [location, setLocation] = useState("Toronto");
   const [jobDescription, setJobDescription] = useState(
-    " Contributed artistically and technically to the realization of engaging 3D content for Online Digital Museum MalovMetaArt, creation totally accurate replication of artworks and attention to detail.Worked closely with multidisciplinary teams to conceptualize, create, and iterate on 3D assets, ensuring they aligned with project goals and maintained a consistent visual identity.Leveraged creativity and adaptability to meet project demands, producing high-quality 3D models and animations that added depth and dimension to the final products."
+    ` Contributed artistically and technically to the realization of engaging 3D content for Online Digital Museum MalovMetaArt, creation totally accurate replication of artworks and attention to detail.
+    Worked closely with multidisciplinary teams to conceptualize, create, and iterate on 3D assets, ensuring they aligned with project goals and maintained a consistent visual identity.
+    Leveraged creativity and adaptability to meet project demands, producing high-quality 3D models and animations that added depth and dimension to the final products.`
   );
   //Education
+  const [schools, setSchools] = useState([]);
+  const [filteredSchools, setFilteredSchools] = useState([]);
   const [schoolName, setSchool] = useState("Ryazan State Univercity");
   const [degree, setDegree] = useState("Master's degree");
   const [startDateEducation, setStartDateEducation] = useState("2015-09-01");
@@ -113,6 +114,10 @@ export default function App() {
         jobDescription={jobDescription}
         onSetJobDescription={setJobDescription}
         //Education
+        schools={schools}
+        onSetSchools={setSchools}
+        filteredSchools={filteredSchools}
+        onSetFilteredSchools={setFilteredSchools}
         schoolName={schoolName}
         onSetSchool={setSchool}
         degree={degree}
@@ -129,6 +134,9 @@ export default function App() {
       />
       <Resume
         projects={projects}
+        filteredJobs={filteredJobs}
+        schools={schools}
+        filteredSchools={filteredSchools}
         fullName={fullName}
         city={city}
         province={province}
@@ -151,34 +159,6 @@ export function Header() {
         Clear
       </Button>
     </div>
-  );
-}
-
-export function Job({ school, handleClearSchool }) {
-  const [isSeen, setIsSeen] = useState(true);
-  const { id, schoolName } = school;
-  function toggleSeen() {
-    setIsSeen((seen) => !seen);
-  }
-  return (
-    <>
-      <div className="job" key={id}>
-        <p className="job-company">{schoolName}</p>
-        <button className="seen-btn" onClick={toggleSeen}>
-          <FontAwesomeIcon
-            icon={isSeen ? faEye : faEyeSlash}
-            className="eye-icon"
-          />
-        </button>
-        <button className="seen-btn">
-          <FontAwesomeIcon
-            onClick={() => handleClearSchool(id)}
-            style={{ fontSize: "20px" }}
-            icon={faTrashCan}
-          />
-        </button>
-      </div>
-    </>
   );
 }
 
@@ -261,13 +241,4 @@ function Skill({ skill, removeSkill }) {
       />
     </div>
   );
-}
-
-function handleDownloadResume() {
-  const doc = new jsPDF("portrait", "pt", "a4");
-
-  doc.html(document.querySelector("#resume-pdf")).then(() => {
-    // Save the PDF file
-    doc.save("resume.pdf");
-  });
 }

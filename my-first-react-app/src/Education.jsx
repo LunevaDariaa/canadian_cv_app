@@ -9,6 +9,10 @@ import { Button } from "./App";
 import { SchoolList } from "./SchoolList";
 
 export function Education({
+  schools,
+  onSetSchools,
+  filteredSchools,
+  onSetFilteredSchools,
   schoolName,
   onSetSchool,
   degree,
@@ -20,7 +24,6 @@ export function Education({
   schoolLocation,
   onSetSchoolLocation,
 }) {
-  const [schools, setSchools] = useState([]);
   const [isModuleOpened, setIsModuleOpened] = useState(false);
   const [newSchool, setNewSchool] = useState(false);
 
@@ -28,6 +31,7 @@ export function Education({
     e.preventDefault();
     const id = Date.now();
     const newEducation = {
+      isSeen: true,
       id,
       schoolName,
       degree,
@@ -35,7 +39,7 @@ export function Education({
       endDateEducation,
       schoolLocation,
     };
-    setSchools([...schools, newEducation]); // Update the projects array state
+    onSetSchools([...schools, newEducation]); // Update the projects array state
 
     onSetSchool("");
     onSetDegree("");
@@ -67,7 +71,7 @@ export function Education({
         </button>
       </div>
       {isModuleOpened && newSchool && (
-        <form>
+        <form onSubmit={handleNewSchool}>
           <input
             type="text"
             value={schoolName}
@@ -103,12 +107,17 @@ export function Education({
             required
           />
           <Button onClick={handleAddSchool}>Cancel</Button>
-          <Button onClick={handleNewSchool}>Save</Button>
+          <Button type="submit">Save</Button>
         </form>
       )}
       {isModuleOpened && (
         <>
-          <SchoolList schools={schools} setSchools={setSchools} />
+          <SchoolList
+            schools={schools}
+            setSchools={onSetSchools}
+            filteredSchools={filteredSchools}
+            onSetFilteredSchools={onSetFilteredSchools}
+          />
           {!newSchool && <Button onClick={handleAddSchool}> + New</Button>}
         </>
       )}

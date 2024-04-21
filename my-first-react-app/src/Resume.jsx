@@ -2,6 +2,9 @@ import { JobResume } from "./JobResume";
 
 export function Resume({
   projects,
+  filteredJobs,
+  schools,
+  filteredSchools,
   fullName,
   city,
   province,
@@ -25,10 +28,32 @@ export function Resume({
       </div>
       <div className="experience">
         {!(projects.length === 0) && <h5>PROFESSIONAL EXPERIENCE</h5>}
-        {projects.map((project) => (
-          <JobResume key={project.id} project={project} />
-        ))}
+        {projects.map(
+          (project) =>
+            !filteredJobs.some(
+              (filteredJob) => filteredJob.id === project.id
+            ) && <JobResume key={project.id} project={project} />
+        )}
       </div>
+      <div className="education">
+        {!(schools.length === 0) && <h5>EDUCATION</h5>}
+        {schools.map(
+          (school) =>
+            !filteredSchools.some(
+              (filteredSchool) => filteredSchool.id === school.id
+            ) && <SchoolResume key={school.id} school={school} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SchoolResume({ school }) {
+  return (
+    <div>
+      {school.isSeen && "True"}
+      {school.id}
+      {school.schoolName}
     </div>
   );
 }

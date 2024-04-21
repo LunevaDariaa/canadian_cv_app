@@ -30,6 +30,10 @@ export function FormSidebar({
   onSetLocation,
   jobDescription,
   onSetJobDescription,
+  schools,
+  onSetSchools,
+  filteredSchools,
+  onSetFilteredSchools,
   schoolName,
   onSetSchool,
   degree,
@@ -66,6 +70,8 @@ export function FormSidebar({
       <Experience
         projects={projects}
         setProjects={setProjects}
+        filteredJobs={filteredJobs}
+        onSetFilteredJobs={onSetFilteredJobs}
         companyName={companyName}
         onSetCompanyName={onSetCompanyName}
         positionTitle={positionTitle}
@@ -80,6 +86,10 @@ export function FormSidebar({
         onSetJobDescription={onSetJobDescription}
       />
       <Education
+        schools={schools}
+        onSetSchools={onSetSchools}
+        filteredSchools={filteredSchools}
+        onSetFilteredSchools={onSetFilteredSchools}
         schoolName={schoolName}
         onSetSchool={onSetSchool}
         degree={degree}

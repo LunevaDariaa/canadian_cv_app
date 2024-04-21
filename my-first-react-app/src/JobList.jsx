@@ -2,7 +2,12 @@ import React, { useState } from "react"; // Import useState
 
 import { Job } from "./Job";
 
-export function JobList({ projects, setProjects }) {
+export function JobList({
+  projects,
+  setProjects,
+  filteredJobs,
+  onSetFilteredJobs,
+}) {
   function toggleSeen(projectId) {
     const project = projects.find((proj) => proj.id === projectId);
 
@@ -15,10 +20,10 @@ export function JobList({ projects, setProjects }) {
       const updatedFilteredJobs = filteredJobs.filter(
         (proj) => proj.id !== projectId
       );
-      setFilteredJobs(updatedFilteredJobs);
+      onSetFilteredJobs(updatedFilteredJobs);
     } else {
       // Add the project to filteredJobs
-      setFilteredJobs([...filteredJobs, project]);
+      onSetFilteredJobs([...filteredJobs, project]);
     }
     console.log(filteredJobs);
   }
@@ -27,6 +32,9 @@ export function JobList({ projects, setProjects }) {
     const filteredProjects = projects.filter((proj) => proj.id !== projectId);
     setProjects(filteredProjects);
   }
+
+  function editProject() {}
+
   return (
     <div>
       {projects.map((project) => (
