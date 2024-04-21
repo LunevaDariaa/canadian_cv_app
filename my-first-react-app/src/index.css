@@ -298,3 +298,22 @@ header {
 
 .skill-resume {
 }
+
+/* Education Resume */
+
+.main-info-education-resume {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.heading-dates-education-resume,
+.experience-heading-dates {
+  margin-right: 40px;
+}
+
+h5 {
+  font-weight: bold;
+  font-size: 9pt;
+  margin: 8px 0 4px 0;
+}
