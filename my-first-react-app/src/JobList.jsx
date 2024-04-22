@@ -7,6 +7,7 @@ export function JobList({
   setProjects,
   filteredJobs,
   onSetFilteredJobs,
+  editProject,
 }) {
   function toggleSeen(projectId) {
     const project = projects.find((proj) => proj.id === projectId);
@@ -33,8 +34,6 @@ export function JobList({
     setProjects(filteredProjects);
   }
 
-  function editProject() {}
-
   return (
     <div>
       {projects.map((project) => (
@@ -43,6 +42,7 @@ export function JobList({
           key={project.id}
           project={project}
           handleClearProject={handleClearProject}
+          editProject={editProject}
         />
       ))}
     </div>

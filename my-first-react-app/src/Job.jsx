@@ -7,14 +7,14 @@ import {
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
 
-export function Job({ project, handleClearProject, toggleSeen }) {
+export function Job({ project, handleClearProject, toggleSeen, editProject }) {
   const { id, companyName } = project;
 
   return (
     <>
       <div className="job" key={id}>
         <p className="job-company">{companyName}</p>
-        <button className="seen-btn">
+        <button className="seen-btn" onClick={() => editProject(project.id)}>
           <FontAwesomeIcon icon={faPen} />
         </button>
         <button className="seen-btn" onClick={toggleSeen}>

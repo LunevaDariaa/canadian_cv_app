@@ -28,29 +28,52 @@ export function Experience({
 }) {
   const [isModuleOpened, setIsModuleOpened] = useState(false);
   const [newJob, setNewJob] = useState(false);
+  const [editProjectId, setEditProjectId] = useState(null); // Track the id of the project being edited
 
   function handleNewProject(e) {
     e.preventDefault();
-    const id = Date.now();
-    const newProj = {
-      id,
-      isSeen: true,
-      companyName,
-      positionTitle,
-      startDateExperience,
-      endtDateExperience,
-      location,
-      jobDescription,
-    };
-    setProjects([...projects, newProj]); // Update the projects array state
+    if (editProjectId !== null) {
+      // If editProjectId is not null, it means we're editing an existing project
+      const updatedProjects = projects.map((proj) => {
+        if (proj.id === editProjectId) {
+          return {
+            ...proj, // Keep existing project properties
+            companyName,
+            positionTitle,
+            startDateExperience,
+            endtDateExperience,
+            location,
+            jobDescription,
+          };
+        }
+        return proj;
+      });
+      setProjects(updatedProjects); // Update the projects array state with the updated project
+      setEditProjectId(null); // Reset the editProjectId after updating
+    } else {
+      // Otherwise, it's a new project
+      const id = Date.now();
+      const newProj = {
+        id,
+        companyName,
+        positionTitle,
+        startDateExperience,
+        endtDateExperience,
+        location,
+        jobDescription,
+      };
+      setProjects([...projects, newProj]); // Update the projects array state with the new project
+    }
+
+    // Reset input values
     onSetCompanyName("");
     onSetPositionTitle("");
     onSetStartDateExperience("");
     onSetEndDateExperience("");
     onSetLocation("");
     onSetJobDescription("");
-    console.log(projects);
-    handleNewJob();
+
+    handleNewJob(); // Close the form after saving
   }
 
   function handleOpenModule() {
@@ -61,6 +84,21 @@ export function Experience({
     setNewJob(!newJob); // Toggle the state directly
   }
 
+  function editProject(projectId) {
+    setEditProjectId(projectId); // Set the editProjectId to the id of the project being edited
+    setNewJob(true); // Open the form for editing
+    const projectToEdit = projects.find((proj) => proj.id === projectId);
+    console.log(projectToEdit);
+    if (projectToEdit) {
+      // Populate the input fields with the data of the project being edited
+      onSetCompanyName(projectToEdit.companyName || "");
+      onSetPositionTitle(projectToEdit.positionTitle || "");
+      onSetStartDateExperience(projectToEdit.startDateExperience || "");
+      onSetEndDateExperience(projectToEdit.endtDateExperience || "");
+      onSetLocation(projectToEdit.location || "");
+      onSetJobDescription(projectToEdit.jobDescription || "");
+    }
+  }
   return (
     <div className="module">
       <div className="module-info">
@@ -134,6 +172,7 @@ export function Experience({
             setProjects={setProjects}
             filteredJobs={filteredJobs}
             onSetFilteredJobs={onSetFilteredJobs}
+            editProject={editProject}
           />
           {!newJob && <Button onClick={handleNewJob}> + New</Button>}
         </>
