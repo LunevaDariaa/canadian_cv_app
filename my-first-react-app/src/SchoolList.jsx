@@ -5,6 +5,7 @@ export function SchoolList({
   setSchools,
   filteredSchools,
   onSetFilteredSchools,
+  editSchool,
 }) {
   function toggleSeen(schoolId) {
     const school = schools.find((proj) => proj.id === schoolId);
@@ -36,6 +37,7 @@ export function SchoolList({
           key={school.id}
           school={school}
           handleClearSchool={handleClearSchool}
+          editSchool={editSchool}
         />
       ))}
     </div>

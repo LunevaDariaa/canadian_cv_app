@@ -1,9 +1,11 @@
 import { Experience } from "./Experience";
-import { Header, Skills } from "./App";
+import { Skills } from "./Skills";
+import { Header } from "./Header";
 import { Education } from "./Education";
 import { PersonalInfo } from "./PersonalInfo";
 
 export function FormSidebar({
+  clearAll,
   projects,
   setProjects,
   filteredJobs,
@@ -51,7 +53,7 @@ export function FormSidebar({
 }) {
   return (
     <div className="form-sidebar">
-      <Header />
+      <Header clearAll={clearAll} />
       <PersonalInfo
         fullName={fullName}
         onSetFullName={onSetFullName}

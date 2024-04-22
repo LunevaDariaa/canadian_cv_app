@@ -5,7 +5,7 @@ import {
   faPlus,
   faMinus,
 } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "./App";
+import { Button } from "./Button";
 import { SchoolList } from "./SchoolList";
 
 export function Education({
@@ -26,20 +26,39 @@ export function Education({
 }) {
   const [isModuleOpened, setIsModuleOpened] = useState(false);
   const [newSchool, setNewSchool] = useState(false);
-
+  const [editSchoolId, setEditSchoolId] = useState(null); // Track the id of the project being edited
   function handleNewSchool(e) {
     e.preventDefault();
-    const id = Date.now();
-    const newEducation = {
-      isSeen: true,
-      id,
-      schoolName,
-      degree,
-      startDateEducation,
-      endDateEducation,
-      schoolLocation,
-    };
-    onSetSchools([...schools, newEducation]); // Update the projects array state
+
+    if (editSchoolId !== null) {
+      const updatedSchools = schools.map((proj) => {
+        if (proj.id === editSchoolId) {
+          return {
+            ...proj, // Keep existing project properties
+            schoolName,
+            degree,
+            startDateEducation,
+            endDateEducation,
+            schoolLocation,
+          };
+        }
+        return proj;
+      });
+      onSetSchools(updatedSchools); // Update the projects array state with the updated project
+      setEditSchoolId(null); // Reset the editProjectId after updating
+    } else {
+      const id = Date.now();
+      const newEducation = {
+        isSeen: true,
+        id,
+        schoolName,
+        degree,
+        startDateEducation,
+        endDateEducation,
+        schoolLocation,
+      };
+      onSetSchools([...schools, newEducation]); // Update the projects array state
+    }
 
     onSetSchool("");
     onSetDegree("");
@@ -48,13 +67,27 @@ export function Education({
     onSetSchoolLocation("");
     handleAddSchool();
   }
-
   function handleAddSchool() {
     setNewSchool((s) => !s);
   }
 
   function handleOpenModule() {
     setIsModuleOpened((open) => !open);
+  }
+
+  function editSchool(schoolId) {
+    setEditSchoolId(schoolId); // Set the editProjectId to the id of the project being edited
+    setNewSchool(true); // Open the form for editing
+    const schoolToEdit = schools.find((proj) => proj.id === schoolId);
+    console.log(schoolToEdit);
+    if (schoolToEdit) {
+      // Populate the input fields with the data of the project being edited
+      onSetSchool(schoolToEdit.schoolName || "");
+      onSetDegree(schoolToEdit.degree || "");
+      onSetStartDateEducation(schoolToEdit.startDateEducation || "");
+      onSetEndDateEducation(schoolToEdit.endtDateEducation || "");
+      onSetSchoolLocation(schoolToEdit.schoolLocation || "");
+    }
   }
 
   return (
@@ -117,6 +150,7 @@ export function Education({
             setSchools={onSetSchools}
             filteredSchools={filteredSchools}
             onSetFilteredSchools={onSetFilteredSchools}
+            editSchool={editSchool}
           />
           {!newSchool && <Button onClick={handleAddSchool}> + New</Button>}
         </>

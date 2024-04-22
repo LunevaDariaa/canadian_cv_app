@@ -5,7 +5,7 @@ import {
   faPlus,
   faMinus,
 } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "./App";
+import { Button } from "./Button";
 import { JobList } from "./JobList";
 
 export function Experience({
@@ -33,7 +33,6 @@ export function Experience({
   function handleNewProject(e) {
     e.preventDefault();
     if (editProjectId !== null) {
-      // If editProjectId is not null, it means we're editing an existing project
       const updatedProjects = projects.map((proj) => {
         if (proj.id === editProjectId) {
           return {
