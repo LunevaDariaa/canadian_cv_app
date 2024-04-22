@@ -33,13 +33,13 @@ export default function App() {
   const [projects, setProjects] = useState([
     {
       companyName: "XYZ Corporation",
-      endtDateExperience: "2022-10-01",
+      endtDateExperience: "2024-10-01",
       id: 1713811769483,
       jobDescription:
         "Provided exceptional customer service to clients via phone, email, and in-person interactions. \nResolved customer inquiries and complaints promptly and efficiently, maintaining a high level of satisfaction \nCollaborated with cross-functional teams to streamline processes and improve customer experience \nAssisted in training new customer service representatives, sharing best practices and company policies",
       location: "Toronto",
       positionTitle: "Manager",
-      startDateExperience: "2024-01-27",
+      startDateExperience: "2022-01-27",
     },
   ]);
   const [filteredJobs, setFilteredJobs] = useState([]);

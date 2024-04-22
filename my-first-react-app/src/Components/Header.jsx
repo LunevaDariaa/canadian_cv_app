@@ -1,4 +1,4 @@
-import { handleDownloadResume } from "./handleDownloadResume";
+import { handleDownloadResume } from "../handleDownloadResume";
 import { Button } from "./Button";
 
 export function Header({ clearAll }) {
