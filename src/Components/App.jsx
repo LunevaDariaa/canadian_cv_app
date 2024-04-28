@@ -43,12 +43,6 @@ export default function App() {
     },
   ]);
   const [filteredJobs, setFilteredJobs] = useState([]);
-  const [companyName, setCompanyName] = useState("");
-  const [positionTitle, setPositionTitle] = useState("");
-  const [startDateExperience, setStartDateExperience] = useState("");
-  const [endtDateExperience, setEndDateExperience] = useState("");
-  const [location, setLocation] = useState("");
-  const [jobDescription, setJobDescription] = useState("");
 
   //Education
   const [schools, setSchools] = useState([
@@ -63,11 +57,6 @@ export default function App() {
     },
   ]);
   const [filteredSchools, setFilteredSchools] = useState([]);
-  const [schoolName, setSchool] = useState("Ryazan State Univercity");
-  const [degree, setDegree] = useState("Master's degree");
-  const [startDateEducation, setStartDateEducation] = useState("2015-09-01");
-  const [endDateEducation, setEndDateEducation] = useState("2019-09-10");
-  const [schoolLocation, setSchoolLocation] = useState("Russia, Ryazan");
 
   //Skills
   const [skills, setSkills] = useState([
@@ -88,20 +77,9 @@ export default function App() {
     setSummary("");
     setProjects([]);
     setFilteredJobs([]);
-    setCompanyName("");
-    setPositionTitle("");
-    setStartDateExperience("");
-    setEndDateExperience("");
-    setLocation("");
-    setJobDescription("");
+
     setSchools([]);
     setFilteredSchools([]);
-    setSchool("");
-    setDegree("");
-    setStartDateEducation("");
-    setEndDateEducation("");
-    setSchoolLocation("");
-    setSkills([]);
   }
 
   return (
@@ -127,34 +105,11 @@ export default function App() {
         setProjects={setProjects}
         filteredJobs={filteredJobs}
         onSetFilteredJobs={setFilteredJobs}
-        companyName={companyName}
-        onSetCompanyName={setCompanyName}
-        positionTitle={positionTitle}
-        onSetPositionTitle={setPositionTitle}
-        startDateExperience={startDateExperience}
-        onSetStartDateExperience={setStartDateExperience}
-        endtDateExperience={endtDateExperience}
-        onSetEndDateExperience={setEndDateExperience}
-        location={location}
-        onSetLocation={setLocation}
-        jobDescription={jobDescription}
-        onSetJobDescription={setJobDescription}
         //Education
         schools={schools}
         onSetSchools={setSchools}
         filteredSchools={filteredSchools}
         onSetFilteredSchools={setFilteredSchools}
-        schoolName={schoolName}
-        onSetSchool={setSchool}
-        degree={degree}
-        onSetDegree={setDegree}
-        startDateEducation={startDateEducation}
-        onSetStartDateEducation={setStartDateEducation}
-        endDateEducation={endDateEducation}
-        onSetEndDateEducation={setEndDateEducation}
-        schoolLocation={schoolLocation}
-        onSetSchoolLocation={setSchoolLocation}
-        //Skills
         skills={skills}
         onSetSkills={setSkills}
       />

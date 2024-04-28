@@ -13,20 +13,17 @@ export function Education({
   onSetSchools,
   filteredSchools,
   onSetFilteredSchools,
-  schoolName,
-  onSetSchool,
-  degree,
-  onSetDegree,
-  startDateEducation,
-  onSetStartDateEducation,
-  endDateEducation,
-  onSetEndDateEducation,
-  schoolLocation,
-  onSetSchoolLocation,
 }) {
   const [isModuleOpened, setIsModuleOpened] = useState(false);
   const [newSchool, setNewSchool] = useState(false);
   const [editSchoolId, setEditSchoolId] = useState(null); // Track the id of the project being edited
+
+  const [schoolName, setSchool] = useState("Ryazan State Univercity");
+  const [degree, setDegree] = useState("Master's degree");
+  const [startDateEducation, setStartDateEducation] = useState("2015-09-01");
+  const [endDateEducation, setEndDateEducation] = useState("2019-09-10");
+  const [schoolLocation, setSchoolLocation] = useState("Russia, Ryazan");
+
   function handleNewSchool(e) {
     e.preventDefault();
 
@@ -60,11 +57,11 @@ export function Education({
       onSetSchools([...schools, newEducation]); // Update the projects array state
     }
 
-    onSetSchool("");
-    onSetDegree("");
-    onSetStartDateEducation("");
-    onSetEndDateEducation("");
-    onSetSchoolLocation("");
+    setSchool("");
+    setDegree("");
+    setStartDateEducation("");
+    setEndDateEducation("");
+    setSchoolLocation("");
     handleAddSchool();
   }
   function handleAddSchool() {
@@ -82,11 +79,11 @@ export function Education({
     console.log(schoolToEdit);
     if (schoolToEdit) {
       // Populate the input fields with the data of the project being edited
-      onSetSchool(schoolToEdit.schoolName || "");
-      onSetDegree(schoolToEdit.degree || "");
-      onSetStartDateEducation(schoolToEdit.startDateEducation || "");
-      onSetEndDateEducation(schoolToEdit.endtDateEducation || "");
-      onSetSchoolLocation(schoolToEdit.schoolLocation || "");
+      setSchool(schoolToEdit.schoolName || "");
+      setDegree(schoolToEdit.degree || "");
+      setStartDateEducation(schoolToEdit.startDateEducation || "");
+      setEndDateEducation(schoolToEdit.endtDateEducation || "");
+      setSchoolLocation(schoolToEdit.schoolLocation || "");
     }
   }
 
@@ -109,33 +106,33 @@ export function Education({
             type="text"
             value={schoolName}
             placeholder="School"
-            onChange={(e) => onSetSchool(e.target.value)}
+            onChange={(e) => setSchool(e.target.value)}
             required
           />
           <input
             type="text"
             value={degree}
             placeholder="Degree"
-            onChange={(e) => onSetDegree(e.target.value)}
+            onChange={(e) => setDegree(e.target.value)}
             required
           />
           <input
             type="date"
             value={startDateEducation}
             placeholder="Start Date"
-            onChange={(e) => onSetStartDateEducation(e.target.value)}
+            onChange={(e) => setStartDateEducation(e.target.value)}
             required
           />
           <input
             type="date"
             value={endDateEducation}
-            onChange={(e) => onSetEndDateEducation(e.target.value)}
+            onChange={(e) => setEndDateEducation(e.target.value)}
             placeholder="End Date"
           />
           <input
             type="text"
             value={schoolLocation}
-            onChange={(e) => onSetSchoolLocation(e.target.value)}
+            onChange={(e) => setSchoolLocation(e.target.value)}
             placeholder="Location"
             required
           />

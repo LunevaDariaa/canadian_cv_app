@@ -20,32 +20,32 @@ export function FormSidebar({
   onSetPhoneNum,
   mail,
   onSetMail,
-  companyName,
-  onSetCompanyName,
-  positionTitle,
-  onSetPositionTitle,
-  startDateExperience,
-  onSetStartDateExperience,
-  endtDateExperience,
-  onSetEndDateExperience,
-  location,
-  onSetLocation,
-  jobDescription,
-  onSetJobDescription,
+  // companyName,
+  // onSetCompanyName,
+  // positionTitle,
+  // onSetPositionTitle,
+  // startDateExperience,
+  // onSetStartDateExperience,
+  // endtDateExperience,
+  // onSetEndDateExperience,
+  // location,
+  // onSetLocation,
+  // jobDescription,
+  // onSetJobDescription,
   schools,
   onSetSchools,
   filteredSchools,
   onSetFilteredSchools,
-  schoolName,
-  onSetSchool,
-  degree,
-  onSetDegree,
-  startDateEducation,
-  onSetStartDateEducation,
-  endDateEducation,
-  onSetEndDateEducation,
-  schoolLocation,
-  onSetSchoolLocation,
+  // schoolName,
+  // onSetSchool,
+  // degree,
+  // onSetDegree,
+  // startDateEducation,
+  // onSetStartDateEducation,
+  // endDateEducation,
+  // onSetEndDateEducation,
+  // schoolLocation,
+  // onSetSchoolLocation,
   summary,
   onSetSummary,
   skills,
@@ -74,34 +74,12 @@ export function FormSidebar({
         setProjects={setProjects}
         filteredJobs={filteredJobs}
         onSetFilteredJobs={onSetFilteredJobs}
-        companyName={companyName}
-        onSetCompanyName={onSetCompanyName}
-        positionTitle={positionTitle}
-        onSetPositionTitle={onSetPositionTitle}
-        startDateExperience={startDateExperience}
-        onSetStartDateExperience={onSetStartDateExperience}
-        endtDateExperience={endtDateExperience}
-        onSetEndDateExperience={onSetEndDateExperience}
-        location={location}
-        onSetLocation={onSetLocation}
-        jobDescription={jobDescription}
-        onSetJobDescription={onSetJobDescription}
       />
       <Education
         schools={schools}
         onSetSchools={onSetSchools}
         filteredSchools={filteredSchools}
         onSetFilteredSchools={onSetFilteredSchools}
-        schoolName={schoolName}
-        onSetSchool={onSetSchool}
-        degree={degree}
-        onSetDegree={onSetDegree}
-        startDateEducation={startDateEducation}
-        onSetStartDateEducation={onSetStartDateEducation}
-        endDateEducation={endDateEducation}
-        onSetEndDateEducation={onSetEndDateEducation}
-        schoolLocation={schoolLocation}
-        onSetSchoolLocation={onSetSchoolLocation}
       />
     </div>
   );

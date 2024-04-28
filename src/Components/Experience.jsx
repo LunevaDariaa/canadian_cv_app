@@ -13,22 +13,29 @@ export function Experience({
   setProjects,
   filteredJobs,
   onSetFilteredJobs,
-  companyName,
-  onSetCompanyName,
-  positionTitle,
-  onSetPositionTitle,
-  startDateExperience,
-  onSetStartDateExperience,
-  endtDateExperience,
-  onSetEndDateExperience,
-  location,
-  onSetLocation,
-  jobDescription,
-  onSetJobDescription,
+  // companyName,
+  // onSetCompanyName,
+  // positionTitle,
+  // onSetPositionTitle,
+  // startDateExperience,
+  // onSetStartDateExperience,
+  // endtDateExperience,
+  // onSetEndDateExperience,
+  // location,
+  // onSetLocation,
+  // jobDescription,
+  // onSetJobDescription,
 }) {
   const [isModuleOpened, setIsModuleOpened] = useState(false);
   const [newJob, setNewJob] = useState(false);
   const [editProjectId, setEditProjectId] = useState(null); // Track the id of the project being edited
+
+  const [companyName, setCompanyName] = useState("");
+  const [positionTitle, setPositionTitle] = useState("");
+  const [startDateExperience, setStartDateExperience] = useState("");
+  const [endtDateExperience, setEndDateExperience] = useState("");
+  const [location, setLocation] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
 
   function handleNewProject(e) {
     e.preventDefault();
@@ -65,12 +72,12 @@ export function Experience({
     }
 
     // Reset input values
-    onSetCompanyName("");
-    onSetPositionTitle("");
-    onSetStartDateExperience("");
-    onSetEndDateExperience("");
-    onSetLocation("");
-    onSetJobDescription("");
+    setCompanyName("");
+    setPositionTitle("");
+    setStartDateExperience("");
+    setEndDateExperience("");
+    setLocation("");
+    setJobDescription("");
 
     handleNewJob(); // Close the form after saving
   }
@@ -90,12 +97,12 @@ export function Experience({
     console.log(projectToEdit);
     if (projectToEdit) {
       // Populate the input fields with the data of the project being edited
-      onSetCompanyName(projectToEdit.companyName || "");
-      onSetPositionTitle(projectToEdit.positionTitle || "");
-      onSetStartDateExperience(projectToEdit.startDateExperience || "");
-      onSetEndDateExperience(projectToEdit.endtDateExperience || "");
-      onSetLocation(projectToEdit.location || "");
-      onSetJobDescription(projectToEdit.jobDescription || "");
+      setCompanyName(projectToEdit.companyName || "");
+      setPositionTitle(projectToEdit.positionTitle || "");
+      setStartDateExperience(projectToEdit.startDateExperience || "");
+      setEndDateExperience(projectToEdit.endtDateExperience || "");
+      setLocation(projectToEdit.location || "");
+      setJobDescription(projectToEdit.jobDescription || "");
     }
   }
   return (
@@ -118,33 +125,33 @@ export function Experience({
             value={companyName}
             placeholder="Company name"
             required
-            onChange={(e) => onSetCompanyName(e.target.value)}
+            onChange={(e) => setCompanyName(e.target.value)}
           />
           <input
             type="text"
             placeholder="Position Title"
             value={positionTitle}
-            onChange={(e) => onSetPositionTitle(e.target.value)}
+            onChange={(e) => setPositionTitle(e.target.value)}
             required
           />
           <input
             type="date"
             placeholder="Start Date"
             value={startDateExperience}
-            onChange={(e) => onSetStartDateExperience(e.target.value)}
+            onChange={(e) => setStartDateExperience(e.target.value)}
             required
           />
           <input
             type="date"
             placeholder="End Date"
             value={endtDateExperience}
-            onChange={(e) => onSetEndDateExperience(e.target.value)}
+            onChange={(e) => setEndDateExperience(e.target.value)}
           />
           <input
             type="text"
             value={location}
             placeholder="Location"
-            onChange={(e) => onSetLocation(e.target.value)}
+            onChange={(e) => setLocation(e.target.value)}
             required
           />
           <textarea
@@ -156,7 +163,7 @@ export function Experience({
               outline: "none",
             }}
             value={jobDescription}
-            onChange={(e) => onSetJobDescription(e.target.value)}
+            onChange={(e) => setJobDescription(e.target.value)}
             placeholder="Description.."
             required
           ></textarea>
