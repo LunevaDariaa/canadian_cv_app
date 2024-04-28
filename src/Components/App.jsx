@@ -77,7 +77,7 @@ export default function App() {
     setSummary("");
     setProjects([]);
     setFilteredJobs([]);
-
+    setSkills([]);
     setSchools([]);
     setFilteredSchools([]);
   }
